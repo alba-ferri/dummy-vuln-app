@@ -8,10 +8,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
+      run: docker build . --file Dockerfile --tag alba-ferri/dummy-vuln-app:latest
     - name: Scan image
       uses: sysdiglabs/scan-action@v3
       with:
-        image-tag: "sysdiglabs/dummy-vuln-app:latest"
+        image-tag: "alba-ferri/dummy-vuln-app:latest"
         sysdig-secure-token: ${{ secrets.SYSDIG_SECURE_TOKEN }}
 
