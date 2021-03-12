@@ -43,7 +43,7 @@ stages:
         tags: |
           $(tag)
 
-    - script: docker run -v /var/run/docker.sock:/var/run/docker.sock quay.io/sysdig/secure-inline-scan:2 -k $(secureApiKey) $(imageRepository):$(tag) --storage-type docker-daemon --storage-path /var/run/docker.sock
+    - script: docker run -v /var/run/docker.sock:/var/run/docker.sock quay.io/sysdig/secure-inline-scan:2 -k $(secureApiKey) $(containerRegistry)/$(imageRepository):$(tag) --storage-type docker-daemon --storage-path /var/run/docker.sock
       displayName: Scan image
 
 
