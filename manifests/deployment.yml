@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: albaferridummyvulnapp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: albaferridummyvulnapp
+  template:
+    metadata:
+      labels:
+        app: albaferridummyvulnapp 
+    spec:
+      containers:
+        - name: albaferridummyvulnapp 
+          image: msigniteacr.azurecr.io/albaferridummyvulnapp
+          ports:
+          - containerPort: 5000
