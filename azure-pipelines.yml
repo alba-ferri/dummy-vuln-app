@@ -36,7 +36,7 @@ stages:
       inputs:
         repository: $(imageName)
         command: build
-        tags: $(tags)
+        tags: latest 
     - script: inline_scan analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageName):latest
       displayName: Scan image
     - task: Docker@2
@@ -46,7 +46,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'push'
-        tags: $(tags)
+        tags: latest 
         containerRegistry: $(dockerRegistryServiceConnection)
 
     - upload: manifests
