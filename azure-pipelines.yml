@@ -32,10 +32,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
 
-    container:
-      image: sysdiglabs/secure-inline-scan:latest
-      options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
-
     steps:
     - task: Docker@2
       displayName: Build image
@@ -46,8 +42,18 @@ stages:
         tags: |
           $(tag)
 
+  - job: Scan
+    container:
+      image: sysdiglabs/secure-inline-scan:latest
+      options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
+
     - script: inline_scan.sh analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageRepository):$(tag)
       displayName: Scan image
+
+  - job: Push
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
 
     - task: Docker@2
       inputs:
