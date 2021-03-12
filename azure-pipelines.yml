@@ -69,6 +69,8 @@ stages:
         command: 'push'
         tags: $(tag)
         containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepository)
+
     - upload: manifests
       artifact: manifests
 
