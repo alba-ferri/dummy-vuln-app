@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: albaferridummyvulnapp 
-          image: msigniteacr.azurecr.io/albaferridummyvulnapp
+          image: alejandroregistry.azurecr.io/azure-pipelines-dummyvulnapp:135
           ports:
           - containerPort: 5000
