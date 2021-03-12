@@ -1,7 +1,6 @@
-FROM debian:stretch
-RUN apt update && apt install python-pip python-numpy openssh-server -y && rm -rf /var/lib/apt
-RUN pip install flask
-RUN pip install --upgrade pip
-COPY app.py /app.py
-EXPOSE 5000 22
-ENTRYPOINT ["python", "./app.py"]
+FROM node:14-alpine
+
+COPY . /src
+RUN cd /src && npm install
+EXPOSE 80
+CMD ["node", "/src/server.js"]

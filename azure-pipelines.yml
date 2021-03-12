@@ -8,6 +8,11 @@ trigger:
 resources:
 - repo: self
 
+
+container:
+  image: sysdiglabs/secure-inline-scan:latest
+  options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
+
 variables:
 
   # Container registry service connection established during pipeline creation
