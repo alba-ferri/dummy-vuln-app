@@ -42,12 +42,12 @@ stages:
         tags: |
           $(tag)
 
-  - job: Scan
-    displayName: Scan
-    dependsOn: Build
-    pool:
-      vmImage: $(vmImageName)  
-    steps:
+#  - job: Scan
+#    displayName: Scan
+#    dependsOn: Build
+#    pool:
+#      vmImage: $(vmImageName)  
+#    steps:
     - script: docker run -v /var/run/docker.sock:/var/run/docker.sock quay.io/sysdig/secure-inline-scan:2 -k $(secureApiKey) $(imageRepository):$(tag) --storage-type docker-daemon --storage-path /var/run/docker.sock
       displayName: Scan image
 
