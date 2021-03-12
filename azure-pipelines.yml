@@ -8,6 +8,18 @@ trigger:
 resources:
 - repo: self
 
+
+pool:
+  vmImage: 'ubuntu-latest'
+container:
+  image: sysdiglabs/secure-inline-scan:latest
+  options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
+variables:
+  containerRegistryConnection: containerRegistry
+  imageName: 'alba-ferri/dummy-vuln-app'
+  tags: |
+    latest
+
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -15,7 +27,7 @@ variables:
   imageRepository: 'albaferridummyvulnapp'
   containerRegistry: 'msigniteacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+#  tag: '$(Build.BuildId)'
   imagePullSecret: 'msigniteacr20933a96-auth'
 
   # Agent VM image name
