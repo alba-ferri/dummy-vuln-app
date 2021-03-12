@@ -42,12 +42,12 @@ stages:
     - task: Docker@2
       inputs:
         command: 'login'
-        containerRegistry: $(containerRegistryConnection)
+        containerRegistry: $(dockerRegistryServiceConnection)
     - task: Docker@2
       inputs:
         command: 'push'
         tags: $(tags)
-        containerRegistry: $(containerRegistryConnection)
+        containerRegistry: $(dockerRegistryServiceConnection)
 
     - upload: manifests
       artifact: manifests
