@@ -47,6 +47,7 @@ stages:
       image: sysdiglabs/secure-inline-scan:latest
       options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
 
+    steps:
     - script: inline_scan.sh analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageRepository):$(tag)
       displayName: Scan image
 
@@ -55,6 +56,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
 
+    steps:
     - task: Docker@2
       inputs:
         command: 'login'
