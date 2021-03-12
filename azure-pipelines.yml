@@ -81,7 +81,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'albaferridummyvulnapp-3368.demo-ms-ignite'
+    environment: 'demo-ms-ignite.demo-ms-ignite'
     strategy:
       runOnce:
         deploy:
