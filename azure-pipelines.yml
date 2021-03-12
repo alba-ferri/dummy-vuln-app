@@ -9,10 +9,6 @@ resources:
 - repo: self
 
 
-container:
-  image: sysdiglabs/secure-inline-scan:latest
-  options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
-
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -35,6 +31,11 @@ stages:
     displayName: Build
     pool:
       vmImage: $(vmImageName)
+
+    container:
+      image: sysdiglabs/secure-inline-scan:latest
+      options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
+
     steps:
     - task: Docker@2
       displayName: Build image
@@ -45,7 +46,7 @@ stages:
         tags: |
           $(tag)
 
-    - script: inline_scan analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageRepository):$(tag)
+    - script: inline_scan.sh analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageRepository):$(tag)
       displayName: Scan image
 
     - task: Docker@2
