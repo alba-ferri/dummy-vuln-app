@@ -20,8 +20,6 @@ variables:
   tags: |
     latest
 
-variables:
-
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '839a5ef4-902f-4bd9-8c83-829ad3e7bb83'
   imageRepository: 'albaferridummyvulnapp'
