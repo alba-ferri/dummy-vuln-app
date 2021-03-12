@@ -9,8 +9,6 @@ resources:
 - repo: self
 
 
-pool:
-  vmImage: 'ubuntu-latest'
 container:
   image: sysdiglabs/secure-inline-scan:latest
   options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
@@ -19,7 +17,6 @@ variables:
   imageName: 'alba-ferri/dummy-vuln-app'
   tags: |
     latest
-
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '839a5ef4-902f-4bd9-8c83-829ad3e7bb83'
   imageRepository: 'albaferridummyvulnapp'
