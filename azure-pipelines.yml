@@ -44,15 +44,17 @@ stages:
 
   - job: Scan
     container:
-      image: sysdiglabs/secure-inline-scan:latest
-      options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
+      image: quay.io/sysdig/secure-inline-scan:2
+      options: -v /var/run/docker.sock:/var/run/docker.sock
 
     steps:
-    - script: inline_scan.sh analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageRepository):$(tag)
+    - script: /sysdig-inline-scan.sh -k $(secureApiKey) $(imageRepository):$(tag) --storage-type docker-daemon --storage-path /var/run/docker.sock
       displayName: Scan image
 
   - job: Push
     displayName: Build
+    dependsOn: Build
+
     pool:
       vmImage: $(vmImageName)
 
@@ -67,16 +69,6 @@ stages:
         command: 'push'
         tags: $(tag)
         containerRegistry: $(dockerRegistryServiceConnection)
-
-#      displayName: Build and push an image to container registry
-#      inputs:
-#        command: buildAndPush
-#        repository: $(imageRepository)
-#        dockerfile: $(dockerfilePath)
-#        containerRegistry: $(dockerRegistryServiceConnection)
-#        tags: |
-#          $(tag)
-
     - upload: manifests
       artifact: manifests
 
