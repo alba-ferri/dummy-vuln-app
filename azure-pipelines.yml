@@ -51,14 +51,14 @@ stages:
     - script: docker run -v /var/run/docker.sock:/var/run/docker.sock quay.io/sysdig/secure-inline-scan:2 -k $(secureApiKey) $(imageRepository):$(tag) --storage-type docker-daemon --storage-path /var/run/docker.sock
       displayName: Scan image
 
-  - job: Push
-    displayName: Push
-    dependsOn: Build
+#  - job: Push
+#    displayName: Push
+#    dependsOn: Build
 
-    pool:
-      vmImage: $(vmImageName)
+#    pool:
+#      vmImage: $(vmImageName)
 
-    steps:
+#    steps:
     - task: Docker@2
       inputs:
         command: 'login'
