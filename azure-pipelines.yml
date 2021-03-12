@@ -8,22 +8,15 @@ trigger:
 resources:
 - repo: self
 
-
-container:
-  image: sysdiglabs/secure-inline-scan:latest
-  options: -v /usr/bin/docker:/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
 variables:
-  containerRegistryConnection: containerRegistry
-  imageName: 'alba-ferri/dummy-vuln-app'
-  tags: |
-    latest
+
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '839a5ef4-902f-4bd9-8c83-829ad3e7bb83'
+  dockerRegistryServiceConnection: 'ee5f4686-8bd6-41ce-b51d-d039e407ccde'
   imageRepository: 'albaferridummyvulnapp'
-  containerRegistry: 'msigniteacr.azurecr.io'
+  containerRegistry: 'alejandroregistry.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-#  tag: '$(Build.BuildId)'
-  imagePullSecret: 'msigniteacr20933a96-auth'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'alejandroregistry458d-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -41,20 +34,34 @@ stages:
     - task: Docker@2
       displayName: Build image
       inputs:
-        repository: $(imageName)
         command: build
-        tags: latest 
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        tags: |
+          $(tags)
+
     - script: inline_scan analyze -s https://secure.sysdig.com -k $(secureApiKey) $(imageName):latest
       displayName: Scan image
+
     - task: Docker@2
       inputs:
         command: 'login'
         containerRegistry: $(dockerRegistryServiceConnection)
+
     - task: Docker@2
       inputs:
         command: 'push'
-        tags: latest 
+        tags: $(tags)
         containerRegistry: $(dockerRegistryServiceConnection)
+
+#      displayName: Build and push an image to container registry
+#      inputs:
+#        command: buildAndPush
+#        repository: $(imageRepository)
+#        dockerfile: $(dockerfilePath)
+#        containerRegistry: $(dockerRegistryServiceConnection)
+#        tags: |
+#          $(tag)
 
     - upload: manifests
       artifact: manifests
@@ -68,7 +75,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'albaferridummyvulnapp.demo-ms-ignite'
+    environment: 'albaferridummyvulnapp-3368.demo-ms-ignite'
     strategy:
       runOnce:
         deploy:
