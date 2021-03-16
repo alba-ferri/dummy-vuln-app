@@ -12,7 +12,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'dff976bd-3db1-4ff3-8bd4-ce853b1a83e1'
-  imageRepository: 'azurepipelinesunsdummyvulnapp'
+  imageRepository: 'uns-dummyvulnapp'
   containerRegistry: 'alejandroregistry.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
